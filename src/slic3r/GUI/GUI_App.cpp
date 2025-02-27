@@ -3981,8 +3981,10 @@ void GUI_App::get_login_info()
         if(m_user_name.empty())
         {
             wxString    msg;
+#if QDT_RELEASE_TO_PUBLIC
             QIDINetwork m_qidinetwork;
             m_user_name = m_qidinetwork.user_info(msg);
+#endif
             //y33
             std::string head_name = wxGetApp().app_config->get("user_head_name");
             // y21
@@ -4695,10 +4697,13 @@ void GUI_App::check_update(bool show_tips, int by_user)
 //B y41
 void GUI_App::check_new_version(bool show_tips, int by_user)
 {
+#if QDT_RELEASE_TO_PUBLIC
     QIDINetwork qidi;
     qidi.check_new_version(show_tips, by_user);
+#endif
 }
 
+#if QDT_RELEASE_TO_PUBLIC
 void GUI_App::update_versioninfo(QIDIVersion version)
 {
     version_info.url = version.url;
@@ -4706,6 +4711,7 @@ void GUI_App::update_versioninfo(QIDIVersion version)
     version_info.description = version.description;
     version_info.force_upgrade = version.force_upgrade;
 }
+#endif
 
 
 //QDS pop up a dialog and download files

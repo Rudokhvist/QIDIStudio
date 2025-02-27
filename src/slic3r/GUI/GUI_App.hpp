@@ -258,9 +258,9 @@ private:
     wxColour        m_color_selected_btn_bg;
     bool            m_force_colors_update { false };
 //#endif
-
+#if QDT_RELEASE_TO_PUBLIC
     std::vector<Device> m_devices;
-
+#endif
     std::vector<std::string>     m_mode_palette;
 
     wxFont		    m_small_font;
@@ -414,9 +414,10 @@ public:
 #endif //_MSW_DARK_MODE
 //#endif
 
-
+#if QDT_RELEASE_TO_PUBLIC
     std::vector<Device> get_devices() { return m_devices; };
     void                set_devices(std::vector<Device> devices) { m_devices = devices; };
+#endif
 
 
     const wxFont&   small_font()            { return m_small_font; }
@@ -676,7 +677,9 @@ public:
     void            restart_networking();
     void            check_config_updates_from_updater();
     void            check_config_updates_from_menu();
+#if QDT_RELEASE_TO_PUBLIC
     void            update_versioninfo(QIDIVersion version);
+#endif
 
 private:
     int             updating_qidi_networking();

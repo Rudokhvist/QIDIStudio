@@ -68,7 +68,9 @@
 #include <slic3r/GUI/CreatePresetsDialog.hpp>
 
 //y
+#if QDT_RELEASE_TO_PUBLIC
 #include "../QIDI/QIDINetwork.hpp"
+#endif
 
 namespace Slic3r {
 namespace GUI {

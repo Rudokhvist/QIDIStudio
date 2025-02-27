@@ -10,7 +10,7 @@
 
 # see bug report: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=925540
 
-find_package(Qhull 7.2 QUIET)
+#find_package(Qhull 7.2 QUIET)
 
 add_library(qhull INTERFACE)
 
