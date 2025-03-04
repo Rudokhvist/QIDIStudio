@@ -151,6 +151,15 @@ public:
     std::map<int, DynamicPrintConfig> build_filament_ams_list(MachineObject* obj);
     void sync_ams_list();
 
+    //w42
+    std::vector<std::string> box_filament_id;
+    std::vector<std::string> box_filment_colors;
+    std::vector<int> box_slot_state;
+    void sync_box_list();
+    void load_box_list(std::vector<std::string> id, std::vector<std::string> color);
+    std::map<int, DynamicPrintConfig> build_filament_box_list(std::vector<std::string> id, std::vector<std::string> color, std::vector<int> slot_state);
+    void updata_filament_list();
+
     ObjectList*             obj_list();
     ObjectSettings*         obj_settings();
     ObjectLayers*           obj_layers();
@@ -203,6 +212,10 @@ private:
     bool            m_soft_first_start {true };
     bool            m_is_gcode_file{ false };
     bool            m_update_3d_state{false};
+
+    //w42
+    ScalableButton* fila_sync_btn = nullptr;
+    
 };
 
 class Plater: public wxPanel
@@ -829,6 +842,7 @@ private:
 };
 
 std::vector<int> get_min_flush_volumes(const DynamicPrintConfig& full_config);
+std::string check_boolean_possible(const std::vector<const ModelVolume*>& volumes);
 } // namespace GUI
 } // namespace Slic3r
 

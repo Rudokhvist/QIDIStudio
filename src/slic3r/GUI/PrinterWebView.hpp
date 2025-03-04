@@ -70,7 +70,7 @@ public:
     void        init_scroll_window(wxPanel *Panel);
     void        CreatThread();
     void load_url(wxString& url);
-    void        load_net_url(std::string url, std::string ip);
+    void        load_net_url(wxString& url, wxString& ip);
     void UpdateState();
     void OnClose(wxCloseEvent& evt);
 
@@ -128,6 +128,10 @@ public:
     bool                        GetNetMode() { return m_isNetMode; };
     std::vector<DeviceButton *> GetNetButton() { return m_net_buttons; };
     wxString GetWeburl(){ return m_web; };
+
+    //y53
+    wxString GetWebIp(){return m_ip;};
+    bool IsNetUrl() {return webisNetMode == isNetWeb;};
     void load_disconnect_url(wxString& url);
     void FormatNetUrl(std::string link_url, std::string local_ip, bool isSpecialMachine);
     void FormatUrl(std::string link_url);

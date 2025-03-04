@@ -235,6 +235,12 @@ StepMeshDialog::StepMeshDialog(wxWindow* parent, Slic3r::Step& file, double line
 
     bSizer->Add(angle_sizer, 1, wxEXPAND | wxLEFT | wxRIGHT, LEFT_RIGHT_PADING);
 
+    wxBoxSizer* check_sizer = new wxBoxSizer(wxHORIZONTAL);
+    m_split_compound_checkbox = new wxCheckBox(this, wxID_ANY, _L("Split compound and compsolid into multiple objects"), wxDefaultPosition, wxDefaultSize, 0);
+    m_split_compound_checkbox->SetValue(wxGetApp().app_config->get_bool("is_split_compound"));
+    check_sizer->Add(m_split_compound_checkbox, 0, wxALIGN_LEFT);
+    bSizer->Add(check_sizer, 1, wxEXPAND | wxLEFT | wxRIGHT, LEFT_RIGHT_PADING);
+
     wxBoxSizer* mesh_face_number_sizer = new wxBoxSizer(wxHORIZONTAL);
     wxStaticText *mesh_face_number_title = new wxStaticText(this, wxID_ANY, _L("Number of triangular facets") + ": ");
     mesh_face_number_text = new wxStaticText(this, wxID_ANY, _L("0"));
@@ -248,10 +254,10 @@ StepMeshDialog::StepMeshDialog(wxWindow* parent, Slic3r::Step& file, double line
     m_checkbox = new wxCheckBox(this, wxID_ANY, _L("Don't show again"), wxDefaultPosition, wxDefaultSize, 0);
     bSizer_button->Add(m_checkbox, 0, wxALIGN_LEFT);
     bSizer_button->AddStretchSpacer(1);
-    StateColor btn_bg_green(std::pair<wxColour, int>(wxColour(27, 136, 68), StateColor::Pressed), std::pair<wxColour, int>(wxColour(61, 203, 115), StateColor::Hovered),
-                            std::pair<wxColour, int>(AMS_CONTROL_BRAND_COLOUR, StateColor::Normal));
+	StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(95, 82, 253), StateColor::Pressed),
+                            std::pair<wxColour, int>(wxColour(129, 150, 255), StateColor::Hovered), std::pair<wxColour, int>(AMS_CONTROL_BRAND_COLOUR, StateColor::Normal));
     m_button_ok = new Button(this, _L("OK"));
-    m_button_ok->SetBackgroundColor(btn_bg_green);
+    m_button_ok->SetBackgroundColor(btn_bg_blue);
     m_button_ok->SetBorderColor(*wxWHITE);
     m_button_ok->SetTextColor(wxColour(0xFFFFFE));
     m_button_ok->SetFont(Label::Body_12);
@@ -267,6 +273,7 @@ StepMeshDialog::StepMeshDialog(wxWindow* parent, Slic3r::Step& file, double line
             if (m_checkbox->IsChecked()) {
                 wxGetApp().app_config->set_bool("enable_step_mesh_setting", false);
             }
+            wxGetApp().app_config->set_bool("is_split_compound", m_split_compound_checkbox->GetValue());
             wxGetApp().app_config->set("linear_defletion", float_to_string_decimal_point(get_linear_defletion(), 3));
             wxGetApp().app_config->set("angle_defletion", float_to_string_decimal_point(get_angle_defletion(), 2));
 

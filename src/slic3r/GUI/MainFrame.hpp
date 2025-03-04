@@ -253,7 +253,8 @@ public:
         eUploadGcode         = 7,
         eExportAllSlicedFile = 8,
         ePrintMultiMachine   = 9, 
-        eSendMultiGcode     = 10    // y11
+        eSendMultiGcode      = 10,    // y11
+        eSendMultiApp        = 11
     };
 
     void update_layout();
@@ -286,6 +287,7 @@ public:
     // Called from wxEVT_ACTIVATE, as wxEVT_CREATE was not reliable (bug in wxWidgets?).
     void        register_win32_callbacks();
     void        init_menubar_as_editor();
+    bool        check_qdt_farm_client_installed();
     void        init_menubar_as_gcodeviewer();
     void        update_menubar();
     // Open item in menu by menu and item name (in actual language)
@@ -415,6 +417,12 @@ public:
     void update_slice_print_status(SlicePrintEventType event, bool can_slice = true, bool can_print = true);
 
     int select_device_page_count{ 0 };
+
+    //y53
+    wxString printer_view_url = "";
+    wxString printer_view_ip = "";
+    bool is_net_url = false;
+    int new_sel;
 
 #ifdef __APPLE__
     std::unique_ptr<wxTaskBarIcon> m_taskbar_icon;

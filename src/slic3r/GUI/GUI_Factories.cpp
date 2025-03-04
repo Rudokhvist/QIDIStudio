@@ -86,7 +86,6 @@ std::map<std::string, std::vector<SimpleSettingData>>  SettingsFactory::OBJECT_C
     { L("Support"), {{"brim_type", "",1},{"brim_width", "",2},{"brim_object_gap", "",3},
                     {"enable_support", "",4},{"support_type", "",5},{"support_threshold_angle", "",6},{"support_on_build_plate_only", "",7},
                     {"support_filament", "",8},{"support_interface_filament", "",9},{"support_expansion", "",24},{"support_style", "",25},
-                    //1.9.5
                     {"tree_support_branch_angle", "",10}, {"tree_support_wall_count", "",11},{"tree_support_branch_diameter_angle", "",11},//tree support
                     {"support_top_z_distance", "",13},{"support_bottom_z_distance", "",12},{"support_base_pattern", "",14},{"support_base_pattern_spacing", "",15},
                     {"support_interface_top_layers", "",16},{"support_interface_bottom_layers", "",17},{"support_interface_spacing", "",18},{"support_bottom_interface_spacing", "",19},
@@ -106,7 +105,6 @@ std::map<std::string, std::vector<SimpleSettingData>>  SettingsFactory::PART_CAT
                     {"infill_combination", "",1}, {"infill_wall_overlap", "",1}, {"infill_direction", "",1}, {"bridge_angle", "",1},{"minimum_sparse_infill_area", "",1}
                     }},
     { L("Speed"), {{"outer_wall_speed", "",1},{"inner_wall_speed", "",2},{"sparse_infill_speed", "",3},{"top_surface_speed", "",4}, {"internal_solid_infill_speed", "",5},
-                    //1.9.5
                     {"enable_overhang_speed", "",6}, {"overhang_1_4_speed", "",7}, {"overhang_2_4_speed", "",8}, {"overhang_3_4_speed", "",9}, {"overhang_4_4_speed", "",10}, {"overhang_totally_speed", "",11},
                     {"bridge_speed", "",12}, {"gap_infill_speed", "",13}
                     }}
@@ -544,13 +542,12 @@ void MenuFactory::append_menu_item_edit_svg(wxMenu *menu)
     append_menu_item(menu, wxID_ANY, name, description, open_svg, icon, nullptr, can_edit_svg, m_parent);
 }
 
-
 wxMenu* MenuFactory::append_submenu_add_generic(wxMenu* menu, ModelVolumeType type) {
     auto sub_menu = new wxMenu;
 
     if (type != ModelVolumeType::INVALID) {
         append_menu_item(sub_menu, wxID_ANY, _L("Load..."), "",
-            [type](wxCommandEvent&) { obj_list()->load_subobject(type,true); }, "", menu);
+            [type](wxCommandEvent&) { obj_list()->load_subobject(type); }, "", menu);
         sub_menu->AppendSeparator();
     }
 

@@ -68,7 +68,7 @@
 #include <slic3r/GUI/CreatePresetsDialog.hpp>
 
 //y
-#if QDT_RELEASE_TO_PUBLIC
+#ifdef QDT_RELEASE_TO_PUBLIC
 #include "../QIDI/QIDINetwork.hpp"
 #endif
 
@@ -689,6 +689,29 @@ DPIFrame(NULL, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, BORDERLESS_FRAME_
 
     wxGetApp().persist_window_geometry(this, true);
     wxGetApp().persist_window_geometry(&m_settings_dialog, true);
+
+    //53
+    Bind(wxEVT_ICONIZE, [this](wxIconizeEvent& event) {
+        if (event.IsIconized()) {
+            wxString url;
+            if (m_printer_view->GetNetMode()) {
+                url = wxString::Format("file://%s/web/qidi/link_missing_connection.html", from_u8(resources_dir()));
+            }
+            else {
+                url = wxString::Format("file://%s/web/qidi/missing_connection.html", from_u8(resources_dir()));
+            }
+            m_printer_view->load_disconnect_url(url);
+        }
+        else {
+            if (!printer_view_ip.empty() && new_sel == tpMonitor) {
+                if (is_net_url)
+                    m_printer_view->load_net_url(printer_view_url, printer_view_ip);
+                else
+                    m_printer_view->load_url(printer_view_url);
+            }
+            m_printer_view->Layout();
+        }
+        });
 }
 
 #ifdef __WIN32__
@@ -1033,7 +1056,9 @@ void MainFrame::init_tabpanel()
 
     m_tabpanel->Bind(wxEVT_NOTEBOOK_PAGE_CHANGING, [this](wxBookCtrlEvent& e) {
         int old_sel = e.GetOldSelection();
-        int new_sel = e.GetSelection();
+        //y53
+        new_sel = e.GetSelection();
+
         if (wxGetApp().preset_bundle &&
             wxGetApp().preset_bundle->printers.get_edited_preset().is_qdt_vendor_preset(wxGetApp().preset_bundle) &&
             new_sel == tpMonitor) {
@@ -1063,40 +1088,32 @@ void MainFrame::init_tabpanel()
                 m_confirm_download_plugin_dlg->on_show();
             }
         }
-        //y
         else if (new_sel == tpMonitor && wxGetApp().preset_bundle != nullptr) {
-                // auto cfg = wxGetApp().preset_bundle->printers.get_edited_preset().config;
-                //wxString url;
-                //if (cfg.has("print_host_webui") && !cfg.opt_string("print_host_webui").empty()) {
-                //    url = cfg.opt_string("print_host_webui");
-                //} else if (cfg.has("print_host") && !cfg.opt_string("print_host").empty()) {
-                //    url = cfg.opt_string("print_host");
-                //}
-                //else {
-                //    ;
-                //}
-
-                // y24
-                // wxString url = m_printer_view->GetWeburl();
-                 
-                // y3 //y13 //y23 //y24
-                // if (url.empty()) {
-                //     if (m_printer_view->GetNetMode()) {
-                //         url = wxString::Format("file://%s/web/qidi/link_missing_connection.html", from_u8(resources_dir()));
-                //     }
-                //     else {
-                //         url = wxString::Format("file://%s/web/qidi/missing_connection.html", from_u8(resources_dir()));
-                //     }
-                // }
-                // m_printer_view->load_url(url);
-                // y28
-                m_printer_view->Layout();
+            //y53
+            if(!printer_view_ip.empty()){
+                if (is_net_url)
+                    m_printer_view->load_net_url(printer_view_url, printer_view_ip);
+                else
+                    m_printer_view->load_url(printer_view_url);
+            }
+            m_printer_view->Layout();
         }
         else if(new_sel == tpCalibration && wxGetApp().preset_bundle != nullptr)
         {
             m_calibration->m_printer_choice->update();
             m_calibration->m_filament_choice->update();
             m_calibration->m_print_choice->update();
+        }
+        //y53
+        else if (new_sel != tpMonitor){
+            wxString url;
+            if (m_printer_view->GetNetMode()) {
+                url = wxString::Format("file://%s/web/qidi/link_missing_connection.html", from_u8(resources_dir()));
+            }
+            else {
+                url = wxString::Format("file://%s/web/qidi/missing_connection.html", from_u8(resources_dir()));
+            }
+            m_printer_view->load_disconnect_url(url);
         }
     });
 
@@ -1694,6 +1711,8 @@ wxBoxSizer* MainFrame::create_side_tools()
                 wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_SEND_TO_PRINTER));
             else if (m_print_select == eSendToPrinterAll)
                 wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_SEND_TO_PRINTER_ALL));
+            else if (m_print_select == eSendMultiApp)
+                wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_SEND_MULTI_APP));
             // y16
             else if (m_print_select == ePrintMultiMachine)
                  wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_PRINT_MULTI_MACHINE));
@@ -1859,6 +1878,22 @@ wxBoxSizer* MainFrame::create_side_tools()
                 p->append_button(export_sliced_file_btn);
                 // p->append_button(export_all_sliced_file_btn);
 
+                //y
+                // if (check_qdt_farm_client_installed()) {
+                //     SideButton *send_to_multi_app_btn = new SideButton(p, _L("Send to QIDI Farm Manager Client"), "");
+                //     send_to_multi_app_btn->SetCornerRadius(0);
+                //     p->append_button(send_to_multi_app_btn);
+
+                //     send_to_multi_app_btn->Bind(wxEVT_BUTTON, [this, p](wxCommandEvent &) {
+                //         m_print_btn->SetLabel(_L("Send to BFMC"));
+                //         m_print_select = eSendMultiApp;
+                //         m_print_enable = get_enable_print_status();
+                //         m_print_btn->Enable(m_print_enable);
+                //         this->Layout();
+                //         p->Dismiss();
+                //     });
+                // }
+
                 if (enable_multi_machine) {
                     SideButton* print_multi_machine_btn = new SideButton(p, _L("Send to Multi-device"), "");
                     print_multi_machine_btn->SetCornerRadius(0);
@@ -1962,6 +1997,11 @@ bool MainFrame::get_enable_print_status()
        if(m_plater->only_gcode_mode())
            enable = false;
        enable = enable && !is_all_plates;
+    }else if (m_print_select == eSendMultiApp) {
+        if (!current_plate->is_slice_result_ready_for_print()) {
+            enable = false;
+        }
+        enable = enable && !is_all_plates;
     }
     else if (m_print_select == eExportGcode)
     {
@@ -2022,6 +2062,11 @@ bool MainFrame::get_enable_print_status()
     {
         if (!current_plate->is_slice_result_ready_for_print())
         {
+            enable = false;
+        }
+        enable = enable && !is_all_plates;
+    }else if (m_print_select == eSendMultiApp) {
+        if (!current_plate->is_slice_result_ready_for_print()) {
             enable = false;
         }
         enable = enable && !is_all_plates;
@@ -2285,6 +2330,60 @@ static wxMenu* generate_help_menu()
     //     });
 
     // About
+
+    //y54
+    append_menu_item(helpMenu, wxID_ANY, _L("Clean the Webview Cache" ), _L("Clean the Webview Cache" ), [](wxCommandEvent&) {
+        CleanCacheDialog* dlg = new CleanCacheDialog(static_cast<wxWindow*>(wxGetApp().mainframe));
+        int res = dlg->ShowModal();
+        if (res == wxID_OK) {
+#ifdef _WIN32
+            wxString local_path = wxStandardPaths::Get().GetUserLocalDataDir();
+            wxString command = wxString::Format("explorer %s", local_path);
+            if (fs::exists(into_u8(local_path))) {
+                BOOST_LOG_TRIVIAL(error) << boost::format("The path is Exitsts : %1%") % local_path;
+                wxExecute(command);
+                wxPostEvent(wxGetApp().mainframe, wxCloseEvent(wxEVT_CLOSE_WINDOW));
+            }
+            else {
+                wxMessageBox(_L("The path is not exists!"), "Error", wxICON_ERROR | wxOK);
+                BOOST_LOG_TRIVIAL(error) << boost::format("The path is not exitsts: %1%") % local_path;
+        }
+#elif defined(__APPLE__)
+            wxString local_path = wxFileName::GetHomeDir() + "/Library/Caches";
+            wxString command = wxString::Format("open \"%s\"", local_path);
+            wxString local_path_2 = wxFileName::GetHomeDir() + "/Library/WebKit";
+            wxString command_2 = wxString::Format("open \"%s\"", local_path_2);
+            if (fs::exists(into_u8(local_path)) && fs::exists(into_u8(local_path_2))) {
+                BOOST_LOG_TRIVIAL(error) << boost::format("The path is Exitsts : %1%") % local_path;
+                wxExecute(command);
+                wxExecute(command_2);
+                wxPostEvent(wxGetApp().mainframe, wxCloseEvent(wxEVT_CLOSE_WINDOW));
+            }
+            else {
+                wxMessageBox(_L("The path is not exists!"), "Error", wxICON_ERROR | wxOK);
+                BOOST_LOG_TRIVIAL(error) << boost::format("The path is not exitsts: %1%") % local_path;
+            }
+#elif defined __linux__
+            wxString local_path = wxFileName::GetHomeDir() + "/.local/share";
+            wxString command = wxString::Format("xdg-open \"%s\"", local_path);
+            wxString local_path_2 = wxFileName::GetHomeDir() + "/.cache";
+            wxString command_2 = wxString::Format("xdg-open \"%s\"", local_path_2);
+            if (fs::exists(into_u8(local_path)) && fs::exists(into_u8(local_path_2))) {
+                BOOST_LOG_TRIVIAL(error) << boost::format("The path is Exitsts : %1%") % local_path;
+                wxExecute(command);
+                wxExecute(command_2);
+                wxPostEvent(wxGetApp().mainframe, wxCloseEvent(wxEVT_CLOSE_WINDOW));
+            }
+            else {
+                wxMessageBox(_L("The path is not exists!"), "Error", wxICON_ERROR | wxOK);
+                BOOST_LOG_TRIVIAL(error) << boost::format("The path is not exitsts: %1%") % local_path;
+            }
+#endif
+        }
+        dlg->Destroy();
+    });
+
+
 #ifndef __APPLE__
     wxString about_title = wxString::Format(_L("&About %s"), SLIC3R_APP_FULL_NAME);
     append_menu_item(helpMenu, wxID_ANY, about_title, about_title,
@@ -2438,7 +2537,10 @@ void MainFrame::init_menubar_as_editor()
             [this](){return can_add_models(); }, this);
 #else
         append_menu_item(import_menu, wxID_ANY, _L("Import 3MF/STL/STEP/SVG/OBJ/AMF") + dots + "\t" + ctrl + "I", _L("Load a model"),
-            [this](wxCommandEvent&) { if (m_plater) { m_plater->add_model(); } }, "", nullptr,
+            [this](wxCommandEvent &) {
+                if (m_plater) { m_plater->add_file(); }
+            },
+            "", nullptr,
             [this](){return can_add_models(); }, this);
 #endif
         append_menu_item(import_menu, wxID_ANY, _L("Import Configs") + dots /*+ "\tCtrl+I"*/, _L("Load configs"),
@@ -3916,6 +4018,27 @@ void MainFrame::show_sync_dialog()
     wxQueueEvent(this, evt);
 }
 
+bool MainFrame::check_qdt_farm_client_installed()
+{
+#ifdef WIN32
+    HKEY hKey;
+    LONG result = RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\QIDITech\\QIDI Farm Manager Client"), 0, KEY_READ, &hKey);
+    LONG result_backup = RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("HKEY_CLASSES_ROOT\\qidi-farm-client\\shell\\open\\command"), 0, KEY_READ, &hKey);
+
+    if (result == ERROR_SUCCESS || result_backup == ERROR_SUCCESS) {
+        BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << "QIDI Farm Manager Client found.";
+        RegCloseKey(hKey);
+        return true;
+    } else {
+        BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << "QIDI Farm Manager Client Not found.";
+        return false;
+    }
+
+#else
+    return false;
+#endif
+}
+
 void MainFrame::update_side_preset_ui()
 {
     // select last preset
@@ -4064,7 +4187,6 @@ void SettingsDialog::on_dpi_changed(const wxRect& suggested_rect)
     Fit();
     Refresh();
 }
-
 
 } // GUI
 } // Slic3r
