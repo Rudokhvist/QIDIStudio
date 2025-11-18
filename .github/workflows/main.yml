@@ -1,0 +1,51 @@
+name: QIDIStudio-CI
+
+on: [push, pull_request]
+
+jobs:
+  main:
+    runs-on: windows-2022
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    
+    - name: Setup MSBUILD
+      uses: microsoft/setup-msbuild@v2
+      with:
+        vs-version: '[17.0,18.0)'
+
+    - name: Setup CMake
+      uses: ssrobins/install-cmake@v1
+      with:
+        version: 3.31.6
+
+    - name: Setup Perl
+      uses: shogo82148/actions-setup-perl@v1.36.0      
+
+    - name: Build Dependencies
+      shell: cmd
+      run: |
+          set CMAKE_TLS_VERIFY=0
+          cd deps
+          mkdir build
+          cd build
+          mkdir QIDIStudio_dep
+          cmake ../ -G "Visual Studio 17 2022" -DDESTDIR="./QIDIStudio_dep" -DCMAKE_BUILD_TYPE=Release
+          msbuild /m ALL_BUILD.vcxproj
+
+    - name: Build QIDI Studio
+      shell: cmd
+      run: |
+          mkdir install_dir
+          mkdir build
+          cd build
+          cmake .. -G "Visual Studio 17 2022" -DQDT_RELEASE_TO_PUBLIC=0 -DCMAKE_PREFIX_PATH="../deps/build/QIDIStudio_dep/usr/local" -DCMAKE_INSTALL_PREFIX="../install_dir" -DCMAKE_BUILD_TYPE=Release -DWIN10SDK_PATH="C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0"
+          cmake --build . --target install --config Release
+
+    - name: Upload Artifacts
+      continue-on-error: true
+      uses: actions/upload-artifact@v5.0.0
+      with:
+        name: QIDIStudio_windows
+        path: install_dir
