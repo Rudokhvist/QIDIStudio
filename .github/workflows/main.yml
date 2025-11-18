@@ -7,6 +7,12 @@ jobs:
     runs-on: windows-2022
 
     steps:
+    - name: Debug
+      shell: cmd
+      run: |
+          echo %cd%sraka
+          echo ${GITHUB_WORKSPACE}motyka
+          
     - name: Checkout code
       uses: actions/checkout@v2
     
@@ -29,7 +35,6 @@ jobs:
     - name: Build Dependencies
       shell: cmd
       run: |
-          echo %cd%sraka
           set CMAKE_TLS_VERIFY=0
           cd deps
           mkdir build
