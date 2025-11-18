@@ -29,6 +29,7 @@ jobs:
     - name: Build Dependencies
       shell: cmd
       run: |
+          echo %cd%sraka
           set CMAKE_TLS_VERIFY=0
           cd deps
           mkdir build
