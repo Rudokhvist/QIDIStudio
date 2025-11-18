@@ -7,14 +7,6 @@ jobs:
     runs-on: windows-2022
 
     steps:
-    - name: Debug
-      shell: cmd
-      run: |
-          echo %cd%sraka
-          echo ${{ github.workspace }}motyka
-          set var=%cd%
-          echo %var%/kudyka
-          
     - name: Checkout code
       uses: actions/checkout@v2
     
@@ -51,7 +43,7 @@ jobs:
           mkdir install_dir
           mkdir build
           cd build
-          cmake .. -G "Visual Studio 17 2022" -DQDT_RELEASE_TO_PUBLIC=0 -DCMAKE_PREFIX_PATH="../deps/build/QIDIStudio_dep/usr/local" -DCMAKE_INSTALL_PREFIX="../install_dir" -DCMAKE_BUILD_TYPE=Release -DWIN10SDK_PATH="C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0"
+          cmake .. -G "Visual Studio 17 2022" -DQDT_RELEASE_TO_PUBLIC=0 -DCMAKE_PREFIX_PATH="${{ github.workspace }}\deps\build\QIDIStudio_dep\usr\local" -DCMAKE_INSTALL_PREFIX="../install_dir" -DCMAKE_BUILD_TYPE=Release -DWIN10SDK_PATH="C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0"
           cmake --build . --target install --config Release
 
     - name: Upload Artifacts
