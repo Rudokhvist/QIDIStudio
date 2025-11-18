@@ -11,7 +11,9 @@ jobs:
       shell: cmd
       run: |
           echo %cd%sraka
-          echo ${GITHUB_WORKSPACE}motyka
+          echo ${{GITHUB_WORKSPACE}}motyka
+          set var=%cd%
+          echo %var%/kudyka
           
     - name: Checkout code
       uses: actions/checkout@v2
