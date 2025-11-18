@@ -11,7 +11,7 @@ jobs:
       shell: cmd
       run: |
           echo %cd%sraka
-          echo ${{GITHUB_WORKSPACE}}motyka
+          echo ${{ github.workspace }}motyka
           set var=%cd%
           echo %var%/kudyka
           
