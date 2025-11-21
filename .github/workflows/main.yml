@@ -20,6 +20,7 @@ jobs:
         vs-version: '[17.0,18.0)'
 
     - name: Setup PkgConfig
+      if: startsWith(matrix.os, 'windows-')
       run: choco install pkgconfiglite -y
       
     - name: Setup CMake
