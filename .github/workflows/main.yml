@@ -20,6 +20,7 @@ jobs:
         vs-version: '[17.0,18.0)'
 
     - name: Setup libraries on linux
+      if: startsWith(matrix.os, 'linux-')    
       run: |
           sudo apt-get install  -y \
           git \
