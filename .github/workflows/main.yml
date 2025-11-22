@@ -27,6 +27,7 @@ jobs:
           build-essential \
           autoconf \
           cmake \
+          extra-cmake-modules \
           libglu1-mesa-dev \
           libgtk-3-dev \
           libdbus-1-dev \
@@ -42,6 +43,7 @@ jobs:
       run: choco install pkgconfiglite -y
       
     - name: Setup CMake
+      if: startsWith(matrix.os, 'windows-')
       uses: ssrobins/install-cmake@v1
       with:
         version: 3.31.6
