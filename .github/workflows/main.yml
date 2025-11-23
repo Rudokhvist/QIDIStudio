@@ -36,6 +36,7 @@ jobs:
           libglfw3-dev \
           libnlopt*-dev \
           libtbb-dev \
+          nasm \
           texinfo
           
     - name: Setup PkgConfig
