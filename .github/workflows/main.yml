@@ -22,10 +22,12 @@ jobs:
     - name: Setup libraries on linux
       if: startsWith(matrix.os, 'ubuntu-')    
       run: |
+          sudo apt-get install -y \
+          libdrm-radeon1_2.4.122-1~ubuntu0.24.04.2_amd64.deb \
+          libdrm-nouveau2_2.4.122-1~ubuntu0.24.04.2_amd64.deb \
+          libdrm-dev_2.4.122-1~ubuntu0.24.04.2_amd64.deb          
           sudo apt-get install  -y \
-          git \
           build-essential \
-          autoconf \
           cmake \
           extra-cmake-modules \
           libglu1-mesa-dev \
@@ -51,8 +53,7 @@ jobs:
           gstreamer1.0-gl \
           gstreamer1.0-gtk3 \
           gstreamer1.0-qt5 \
-          gstreamer1.0-pulseaudio \
-          texinfo
+          gstreamer1.0-pulseaudio
           
     - name: Setup PkgConfig
       if: startsWith(matrix.os, 'windows-')
