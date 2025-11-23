@@ -39,7 +39,8 @@ jobs:
           libgstreamer1.0-dev \
           libgstreamer-plugins-base1.0-dev \
           libgstreamer-plugins-bad1.0-dev \
-          libcurl4-openssl-dev
+          libcurl4-openssl-dev \
+          libosmesa6-dev
           
     - name: Setup PkgConfig
       if: startsWith(matrix.os, 'windows-')
