@@ -23,9 +23,9 @@ jobs:
       if: startsWith(matrix.os, 'ubuntu-')    
       run: |
           sudo apt-get install -y \
-          libdrm-radeon1_2.4.122-1~ubuntu0.24.04.2_amd64.deb \
-          libdrm-nouveau2_2.4.122-1~ubuntu0.24.04.2_amd64.deb \
-          libdrm-dev_2.4.122-1~ubuntu0.24.04.2_amd64.deb          
+          libdrm-radeon1_2.4.122-1~ubuntu0.24.04.2_amd64 \
+          libdrm-nouveau2_2.4.122-1~ubuntu0.24.04.2_amd64 \
+          libdrm-dev_2.4.122-1~ubuntu0.24.04.2_amd64         
           sudo apt-get install  -y \
           build-essential \
           cmake \
