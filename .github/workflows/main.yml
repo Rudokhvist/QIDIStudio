@@ -35,11 +35,13 @@ jobs:
           libglfw3-dev \
           libnlopt*-dev \
           libtbb-dev \
-          libcurl-dev \
           nasm \
           libgstreamer1.0-dev \
           libgstreamer-plugins-base1.0-dev \
           libgstreamer-plugins-bad1.0-dev \
+          libcurl4-gnutls-dev \
+          libcurl4-nss-dev \
+          libcurl4-openssl-dev
           
     - name: Setup PkgConfig
       if: startsWith(matrix.os, 'windows-')
