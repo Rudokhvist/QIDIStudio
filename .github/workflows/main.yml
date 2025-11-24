@@ -6,7 +6,7 @@ jobs:
   main:    
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-2022]
+        os: [ubuntu-latest, windows-2022, macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -83,6 +83,15 @@ jobs:
           sed -i "s/-DQDT_INTERNAL_TESTING=0/-DQDT_INTERNAL_TESTING=1 -DQDT_RELEASE_TO_PUBLIC=0/" BuildLinux.sh 
           chmod +x BuildLinux.sh
           ./BuildLinux.sh -dsi
+
+    - name: Build QIDI Studio on MacOS 
+      if: startsWith(matrix.os, 'macos-')
+      run: |
+          sed -i "s/-DQDT_INTERNAL_TESTING=0/-DQDT_INTERNAL_TESTING=1/" BuildMac.sh 
+          sed -i "s/-DQDT_RELEASE_TO_PUBLIC=1/-DQDT_RELEASE_TO_PUBLIC=0/ BuildMac.sh
+          chmod +x BuildMac.sh
+          ./BuildMac.sh -ds
+          ls -R
 
     - name: Upload Artifacts on Windows
       if: startsWith(matrix.os, 'windows-')
