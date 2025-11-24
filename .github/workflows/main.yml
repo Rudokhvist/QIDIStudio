@@ -45,7 +45,9 @@ jobs:
     - name: Setup libraries on Mac
       if: startsWith(matrix.os, 'macos-')    
       run: |
-          brew install boost
+          brew install \
+          boost \
+          boost_system
           
     - name: Setup PkgConfig
       if: startsWith(matrix.os, 'windows-')
