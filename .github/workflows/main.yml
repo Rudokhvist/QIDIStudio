@@ -53,6 +53,7 @@ jobs:
           git \
           gettext \
           libtool \
+          tbb \
           texinfo \
           m4 \
           zlib
