@@ -47,7 +47,7 @@ jobs:
       run: |
           brew update
           brew install \
-          boost@1.69 \
+          boost@1.76 \
           automake \
           cmake \
           git \
