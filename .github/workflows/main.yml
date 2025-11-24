@@ -21,7 +21,7 @@ jobs:
 
     - name: Setup libraries on linux
       if: startsWith(matrix.os, 'ubuntu-')    
-      run: |      
+      run: |
           sudo apt-get update
           sudo apt-get install  -y \
           build-essential \
@@ -41,6 +41,11 @@ jobs:
           libgstreamer-plugins-bad1.0-dev \
           libcurl4-openssl-dev \
           libosmesa6-dev
+          
+    - name: Setup libraries on Mac
+      if: startsWith(matrix.os, 'macos-')    
+      run: |
+          brew install boost
           
     - name: Setup PkgConfig
       if: startsWith(matrix.os, 'windows-')
