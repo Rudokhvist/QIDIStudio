@@ -52,7 +52,7 @@ jobs:
           curl \
           git \
           gettext \
-          icudata \
+          icu4c \
           libtool \
           tbb \
           texinfo \
