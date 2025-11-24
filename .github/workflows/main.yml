@@ -45,9 +45,18 @@ jobs:
     - name: Setup libraries on Mac
       if: startsWith(matrix.os, 'macos-')    
       run: |
+          brew update
           brew install \
           boost \
-          boost_system
+          automake \
+          cmake \
+          git \
+          gettext \
+          libtool \
+          texinfo \
+          m4 \
+          zlib
+          brew upgrade
           
     - name: Setup PkgConfig
       if: startsWith(matrix.os, 'windows-')
