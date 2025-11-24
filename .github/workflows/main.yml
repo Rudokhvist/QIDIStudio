@@ -105,8 +105,7 @@ jobs:
       run: |
           sysctl kern.maxproc
           sysctl kern.maxprocperuid
-          sudo sysctl kern.maxproc=2500
-          sudo sysctl kern.maxprocperuid=2500
+          sudo sysctl kern.maxprocperuid=2000
           export PATH="/opt/homebrew/opt/curl/bin:$PATH"
           export LDFLAGS="-L/opt/homebrew/opt/curl/lib -L/opt/homebrew/opt/boost@1.85/lib"
           export CPPFLAGS="-I/opt/homebrew/opt/curl/include -I/opt/homebrew/opt/boost@1.85/include"
