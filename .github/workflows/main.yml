@@ -52,6 +52,7 @@ jobs:
           curl \
           git \
           gettext \
+          icudata \
           libtool \
           tbb \
           texinfo \
