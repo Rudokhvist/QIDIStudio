@@ -49,7 +49,6 @@ jobs:
           brew install \
           boost@1.85 \
           automake \
-          cmake@3.31.6 \
           curl \
           git \
           gettext \
