@@ -103,6 +103,9 @@ jobs:
     - name: Build QIDI Studio on MacOS 
       if: startsWith(matrix.os, 'macos-')
       run: |
+          export LDFLAGS="-L/opt/homebrew/opt/boost@1.85/lib"
+          export CPPFLAGS="-I/opt/homebrew/opt/boost@1.85/include"
+          export CMAKE_PREFIX_PATH="/opt/homebrew/opt/boost@1.85"
           sed -i '' -e 's/-DQDT_INTERNAL_TESTING=0/-DQDT_INTERNAL_TESTING=1/' BuildMac.sh 
           sed -i '' -e 's/-DQDT_RELEASE_TO_PUBLIC=1/-DQDT_RELEASE_TO_PUBLIC=0/' BuildMac.sh
           chmod +x BuildMac.sh
