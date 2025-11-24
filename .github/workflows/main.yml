@@ -117,7 +117,7 @@ jobs:
           sed -i '' -e 's/-DQDT_RELEASE_TO_PUBLIC=1/-DQDT_RELEASE_TO_PUBLIC=0/' BuildMac.sh
           cat BuildMac.sh
           chmod +x BuildMac.sh
-          ./BuildMac.sh -d
+          ./BuildMac.sh -1 -d
           ./BuildMac.sh -s
           ls -R
 
