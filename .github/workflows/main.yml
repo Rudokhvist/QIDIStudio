@@ -119,8 +119,8 @@ jobs:
           sed -i '' -e 's/-DQDT_RELEASE_TO_PUBLIC=1/-DQDT_RELEASE_TO_PUBLIC=0/' BuildMac.sh
           cat BuildMac.sh
           chmod +x BuildMac.sh
-          ./BuildMac.sh -1 -d -a x86_64
-          ./BuildMac.sh -s -a x86_64
+          ./BuildMac.sh -1 -d
+          ./BuildMac.sh -s
           ls -R
 
     - name: Upload Artifacts on Windows
