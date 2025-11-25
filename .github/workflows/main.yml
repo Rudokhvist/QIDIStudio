@@ -54,7 +54,8 @@ jobs:
           tbb \
           texinfo \
           m4 \
-          zlib
+          zlib \
+          zstd
           brew upgrade
           
     - name: Setup PkgConfig
