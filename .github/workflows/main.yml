@@ -54,8 +54,7 @@ jobs:
           tbb \
           texinfo \
           m4 \
-          zlib \
-          zstd
+          zlib
           brew upgrade
           
     - name: Setup PkgConfig
@@ -110,9 +109,9 @@ jobs:
           export PATH="/opt/homebrew/opt/curl/bin:$PATH"
           export PATH="/opt/homebrew/opt/icu4c@78/bin:$PATH"
           export PATH="/opt/homebrew/opt/icu4c@78/sbin:$PATH"          
-          export LDFLAGS="-L/opt/homebrew/opt/curl/lib -L/opt/homebrew/opt/boost@1.85/lib -L/opt/homebrew/opt/icu4c@78/lib"
-          export CPPFLAGS="-I/opt/homebrew/opt/curl/include -I/opt/homebrew/opt/boost@1.85/include -I/opt/homebrew/opt/icu4c@78/include"
-          export PKG_CONFIG_PATH="/opt/homebrew/opt/curl/lib/pkgconfig:/opt/homebrew/opt/boost@1.85/lib/pkgconfig:/opt/homebrew/opt/icu4c@78/lib/pkgconfig"
+          export LDFLAGS="-L/opt/homebrew/opt/curl/lib -L/opt/homebrew/opt/boost@1.85/lib -L/opt/homebrew/opt/icu4c@78/lib -L/opt/homebrew/opt/zlib/lib -L/opt/homebrew/opt/zstd/lib"
+          export CPPFLAGS="-I/opt/homebrew/opt/curl/include -I/opt/homebrew/opt/boost@1.85/include -I/opt/homebrew/opt/icu4c@78/include -I/opt/homebrew/opt/zlib/include -I/opt/homebrew/opt/zstd/include"
+          export PKG_CONFIG_PATH="/opt/homebrew/opt/curl/lib/pkgconfig:/opt/homebrew/opt/boost@1.85/lib/pkgconfig:/opt/homebrew/opt/icu4c@78/lib/pkgconfig:/opt/homebrew/opt/zlib/lib/pkgconfig:/opt/homebrew/opt/zstd/lib/pkgconfig"
           export CMAKE_PREFIX_PATH="/opt/homebrew/opt/boost@1.85;/opt/homebrew/opt/curl;/opt/homebrew/opt/icu4c@78"
           sed -i '' -e 's/-DCMAKE_PREFIX_PATH="$DEPS/-DCMAKE_PREFIX_PATH="$CMAKE_PREFIX_PATH;$DEPS/' BuildMac.sh
           sed -i '' -e 's/-DQDT_INTERNAL_TESTING=0/-DQDT_INTERNAL_TESTING=1/' BuildMac.sh 
