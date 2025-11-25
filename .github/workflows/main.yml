@@ -56,8 +56,6 @@ jobs:
           m4 \
           zlib
           brew upgrade
-          find / -type f -iname *icudata* 2>/dev/null
-          exit 1
           
     - name: Setup PkgConfig
       if: startsWith(matrix.os, 'windows-')
@@ -109,11 +107,12 @@ jobs:
       run: |
           export CMAKE_TLS_VERIFY=0
           export PATH="/opt/homebrew/opt/curl/bin:$PATH"
-          export LDFLAGS="-L/opt/homebrew/opt/curl/lib -L/opt/homebrew/opt/boost@1.85/lib"
-          export CPPFLAGS="-I/opt/homebrew/opt/curl/include -I/opt/homebrew/opt/boost@1.85/include"
-          export PKG_CONFIG_PATH="/opt/homebrew/opt/curl/lib/pkgconfig:/opt/homebrew/opt/boost@1.85/lib/pkgconfig"
-          export LIBRARY_PATH=${LIBRARY_PATH}:/usr/local/opt/icu4c/lib
-          export CMAKE_PREFIX_PATH="/opt/homebrew/opt/boost@1.85;/opt/homebrew/opt/curl"
+          export PATH="/opt/homebrew/opt/icu4c@78/bin:$PATH"
+          export PATH="/opt/homebrew/opt/icu4c@78/sbin:$PATH"          
+          export LDFLAGS="-L/opt/homebrew/opt/curl/lib -L/opt/homebrew/opt/boost@1.85/lib -L/opt/homebrew/opt/icu4c@78/lib"
+          export CPPFLAGS="-I/opt/homebrew/opt/curl/include -I/opt/homebrew/opt/boost@1.85/include -I/opt/homebrew/opt/icu4c@78/include"
+          export PKG_CONFIG_PATH="/opt/homebrew/opt/curl/lib/pkgconfig:/opt/homebrew/opt/boost@1.85/lib/pkgconfig:/opt/homebrew/opt/icu4c@78/lib/pkgconfig"
+          export CMAKE_PREFIX_PATH="/opt/homebrew/opt/boost@1.85;/opt/homebrew/opt/curl;/opt/homebrew/opt/icu4c@78"
           sed -i '' -e 's/-DCMAKE_PREFIX_PATH="$DEPS/-DCMAKE_PREFIX_PATH="$CMAKE_PREFIX_PATH;$DEPS/' BuildMac.sh
           sed -i '' -e 's/-DQDT_INTERNAL_TESTING=0/-DQDT_INTERNAL_TESTING=1/' BuildMac.sh 
           sed -i '' -e 's/-DQDT_RELEASE_TO_PUBLIC=1/-DQDT_RELEASE_TO_PUBLIC=0/' BuildMac.sh
