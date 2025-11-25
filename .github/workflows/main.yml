@@ -51,6 +51,7 @@ jobs:
           git \
           gettext \
           libtool \
+          nasm \
           tbb \
           texinfo \
           m4 \
