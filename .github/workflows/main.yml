@@ -97,6 +97,7 @@ jobs:
     - name: Build QIDI Studio on Linux 
       if: startsWith(matrix.os, 'ubuntu-')
       run: |
+          export CMAKE_TLS_VERIFY=0
           sed -i "s/-DQDT_INTERNAL_TESTING=0/-DQDT_INTERNAL_TESTING=1 -DQDT_RELEASE_TO_PUBLIC=0/" BuildLinux.sh 
           chmod +x BuildLinux.sh
           ./BuildLinux.sh -dsi
@@ -104,9 +105,7 @@ jobs:
     - name: Build QIDI Studio on MacOS 
       if: startsWith(matrix.os, 'macos-')
       run: |
-          sysctl kern.maxproc
-          sysctl kern.maxprocperuid
-          sudo sysctl kern.maxprocperuid=2000
+          export CMAKE_TLS_VERIFY=0
           export PATH="/opt/homebrew/opt/curl/bin:$PATH"
           export LDFLAGS="-L/opt/homebrew/opt/curl/lib -L/opt/homebrew/opt/boost@1.85/lib"
           export CPPFLAGS="-I/opt/homebrew/opt/curl/include -I/opt/homebrew/opt/boost@1.85/include"
