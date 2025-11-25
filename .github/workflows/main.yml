@@ -59,6 +59,8 @@ jobs:
           m4 \
           zlib
           brew upgrade
+          find / -type f -iname icudata* 2>/dev/null
+          exit 1
           
     - name: Setup PkgConfig
       if: startsWith(matrix.os, 'windows-')
