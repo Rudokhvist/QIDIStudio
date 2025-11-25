@@ -10,9 +10,6 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    
     - name: Setup MSBUILD
       if: startsWith(matrix.os, 'windows-')
       uses: microsoft/setup-msbuild@v2
@@ -47,19 +44,19 @@ jobs:
       run: |
           brew update
           brew install \
+          icu4c \          
           boost@1.85 \
           automake \
           curl \
           git \
           gettext \
-          icu4c \
           libtool \
           tbb \
           texinfo \
           m4 \
           zlib
           brew upgrade
-          find / -type f -iname icudata* 2>/dev/null
+          find / -type f -iname *icudata* 2>/dev/null
           exit 1
           
     - name: Setup PkgConfig
@@ -72,7 +69,10 @@ jobs:
         version: 3.31.6
 
     - name: Setup Perl
-      uses: shogo82148/actions-setup-perl@v1.36.0      
+      uses: shogo82148/actions-setup-perl@v1.36.0
+
+    - name: Checkout code
+      uses: actions/checkout@v2
 
     - name: Build Dependencies on Windows
       if: startsWith(matrix.os, 'windows-')
