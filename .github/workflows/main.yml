@@ -44,7 +44,7 @@ jobs:
       run: |
           brew update
           brew install \
-          icu4c \          
+          icu4c \
           boost@1.85 \
           automake \
           curl \
