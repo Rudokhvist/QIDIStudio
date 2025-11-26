@@ -107,18 +107,18 @@ jobs:
       if: startsWith(matrix.os, 'macos-')
       run: |
           export CMAKE_TLS_VERIFY=0
-          export PATH="/opt/homebrew/opt/curl/bin:$PATH"
-          export PATH="/opt/homebrew/opt/icu4c@78/bin:$PATH"
-          export PATH="/opt/homebrew/opt/icu4c@78/sbin:$PATH"          
-          export LDFLAGS="-L/opt/homebrew/opt/curl/lib -L/opt/homebrew/opt/boost@1.85/lib -L/opt/homebrew/opt/icu4c@78/lib -L/opt/homebrew/opt/zlib/lib -L/opt/homebrew/opt/zstd/lib"
-          export CPPFLAGS="-I/opt/homebrew/opt/curl/include -I/opt/homebrew/opt/boost@1.85/include -I/opt/homebrew/opt/icu4c@78/include -I/opt/homebrew/opt/zlib/include -I/opt/homebrew/opt/zstd/include"
-          export PKG_CONFIG_PATH="/opt/homebrew/opt/curl/lib/pkgconfig:/opt/homebrew/opt/boost@1.85/lib/pkgconfig:/opt/homebrew/opt/icu4c@78/lib/pkgconfig:/opt/homebrew/opt/zlib/lib/pkgconfig:/opt/homebrew/opt/zstd/lib/pkgconfig"
-          export CMAKE_PREFIX_PATH="/opt/homebrew/opt/boost@1.85;/opt/homebrew/opt/curl;/opt/homebrew/opt/icu4c@78"
+          export PATH="/usr/local/opt/curl/bin:$PATH"
+          export PATH="/usr/local/opt/icu4c@78/bin:$PATH"
+          export PATH="/usr/local/opt/icu4c@78/sbin:$PATH"       
+          export LDFLAGS="-L/usr/local/opt/curl/lib -L/usr/local/opt/boost@1.85/lib -L/usr/local/opt/icu4c@78/lib -L/usr/local/opt/zlib/lib -L/usr/local/opt/zstd/lib"
+          export CPPFLAGS="-I/usr/local/opt/curl/include -I/usr/local/opt/boost@1.85/include -I/usr/local/opt/icu4c@78/include -I/usr/local/opt/zlib/include -I/usr/local/opt/zstd/include"
+          export PKG_CONFIG_PATH="/usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/boost@1.85/lib/pkgconfig:/usr/local/opt/icu4c@78/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig://usr/local/opt/zstd/lib/pkgconfig"
+          export CMAKE_PREFIX_PATH="/usr/local/opt/boost@1.85;/opt/homebrew/opt/curl;/usr/local/opt/icu4c@78"
           sed -i '' -e 's/-DCMAKE_PREFIX_PATH="$DEPS/-DCMAKE_PREFIX_PATH="$CMAKE_PREFIX_PATH;$DEPS/' BuildMac.sh
           sed -i '' -e 's/-DQDT_INTERNAL_TESTING=0/-DQDT_INTERNAL_TESTING=1/' BuildMac.sh 
           sed -i '' -e 's/-DQDT_RELEASE_TO_PUBLIC=1/-DQDT_RELEASE_TO_PUBLIC=0/' BuildMac.sh
           chmod +x BuildMac.sh
-          ./BuildMac.sh -1
+          ./BuildMac.sh
           ls -R
 
     - name: Upload Artifacts on Windows
