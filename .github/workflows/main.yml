@@ -43,20 +43,17 @@ jobs:
       if: startsWith(matrix.os, 'macos-')    
       run: |
           brew update
+          export HOMEBREW_NO_INSTALL_FROM_API=1
+          ls {HOMEBREW_DIR}/Homebrew/Library/Taps/homebrew/homebrew-core/homebrew/homebrew-core/Formula
+          exit 1
           brew install \
-          icu4c \
           boost@1.76 \
           automake \
-          curl \
           git \
-          gettext \
-          libtool \
           nasm \
           tbb \
           texinfo \
-          m4 \
           zlib
-          brew upgrade
           
     - name: Setup PkgConfig
       if: startsWith(matrix.os, 'windows-')
