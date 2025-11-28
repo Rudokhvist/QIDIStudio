@@ -44,7 +44,8 @@ jobs:
       run: |
           brew update
           export HOMEBREW_NO_INSTALL_FROM_API=1
-          ls {HOMEBREW_DIR}/Homebrew/Library/Taps/homebrew/homebrew-core/homebrew/homebrew-core/Formula
+          which homebrew
+          ls /opt/homebrew/Library/Taps/homebrew/homebrew-core/homebrew/homebrew-core/Formula
           exit 1
           brew install \
           boost@1.76 \
@@ -110,7 +111,7 @@ jobs:
           export LDFLAGS="-L/usr/local/opt/curl/lib -L/usr/local/opt/boost@1.76/lib -L/usr/local/opt/icu4c@78/lib -L/usr/local/opt/zlib/lib -L/usr/local/opt/zstd/lib"
           export CPPFLAGS="-I/usr/local/opt/curl/include -I/usr/local/opt/boost@1.76/include -I/usr/local/opt/icu4c@78/include -I/usr/local/opt/zlib/include -I/usr/local/opt/zstd/include"
           export PKG_CONFIG_PATH="/usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/boost@1.76/lib/pkgconfig:/usr/local/opt/icu4c@78/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig://usr/local/opt/zstd/lib/pkgconfig"
-          export CMAKE_PREFIX_PATH="/usr/local/opt/boost@1.76;/opt/homebrew/opt/curl;/usr/local/opt/icu4c@78"
+          export CMAKE_PREFIX_PATH="/usr/local/opt/boost@1.76;/usr/local/opt/curl;/usr/local/opt/icu4c@78"
           sed -i '' -e 's/-DCMAKE_PREFIX_PATH="$DEPS/-DCMAKE_PREFIX_PATH="$CMAKE_PREFIX_PATH;$DEPS/' BuildMac.sh
           sed -i '' -e 's/-DQDT_INTERNAL_TESTING=0/-DQDT_INTERNAL_TESTING=1/' BuildMac.sh 
           sed -i '' -e 's/-DQDT_RELEASE_TO_PUBLIC=1/-DQDT_RELEASE_TO_PUBLIC=0/' BuildMac.sh
