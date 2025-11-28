@@ -45,8 +45,7 @@ jobs:
           brew update
           export HOMEBREW_NO_INSTALL_FROM_API=1
           which -a brew
-          ls -R /usr/local/Homebrew/
-          ls /opt/homebrew/Library/Taps/homebrew/homebrew-core/homebrew/homebrew-core/Formula
+          ls -R /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/
           exit 1
           brew install \
           boost@1.76 \
