@@ -47,7 +47,7 @@ jobs:
           exit 1
           brew install \
           icu4c \
-          boost@1.85 \
+          boost@1.76 \
           automake \
           curl \
           git \
@@ -112,10 +112,10 @@ jobs:
           export PATH="/usr/local/opt/curl/bin:$PATH"
           export PATH="/usr/local/opt/icu4c@78/bin:$PATH"
           export PATH="/usr/local/opt/icu4c@78/sbin:$PATH"       
-          export LDFLAGS="-L/usr/local/opt/curl/lib -L/usr/local/opt/boost@1.85/lib -L/usr/local/opt/icu4c@78/lib -L/usr/local/opt/zlib/lib -L/usr/local/opt/zstd/lib"
-          export CPPFLAGS="-I/usr/local/opt/curl/include -I/usr/local/opt/boost@1.85/include -I/usr/local/opt/icu4c@78/include -I/usr/local/opt/zlib/include -I/usr/local/opt/zstd/include"
-          export PKG_CONFIG_PATH="/usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/boost@1.85/lib/pkgconfig:/usr/local/opt/icu4c@78/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig://usr/local/opt/zstd/lib/pkgconfig"
-          export CMAKE_PREFIX_PATH="/usr/local/opt/boost@1.85;/opt/homebrew/opt/curl;/usr/local/opt/icu4c@78"
+          export LDFLAGS="-L/usr/local/opt/curl/lib -L/usr/local/opt/boost@1.76/lib -L/usr/local/opt/icu4c@78/lib -L/usr/local/opt/zlib/lib -L/usr/local/opt/zstd/lib"
+          export CPPFLAGS="-I/usr/local/opt/curl/include -I/usr/local/opt/boost@1.76/include -I/usr/local/opt/icu4c@78/include -I/usr/local/opt/zlib/include -I/usr/local/opt/zstd/include"
+          export PKG_CONFIG_PATH="/usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/boost@1.76/lib/pkgconfig:/usr/local/opt/icu4c@78/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig://usr/local/opt/zstd/lib/pkgconfig"
+          export CMAKE_PREFIX_PATH="/usr/local/opt/boost@1.76;/opt/homebrew/opt/curl;/usr/local/opt/icu4c@78"
           sed -i '' -e 's/-DCMAKE_PREFIX_PATH="$DEPS/-DCMAKE_PREFIX_PATH="$CMAKE_PREFIX_PATH;$DEPS/' BuildMac.sh
           sed -i '' -e 's/-DQDT_INTERNAL_TESTING=0/-DQDT_INTERNAL_TESTING=1/' BuildMac.sh 
           sed -i '' -e 's/-DQDT_RELEASE_TO_PUBLIC=1/-DQDT_RELEASE_TO_PUBLIC=0/' BuildMac.sh
