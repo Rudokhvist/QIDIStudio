@@ -43,8 +43,6 @@ jobs:
       if: startsWith(matrix.os, 'macos-')    
       run: |
           brew update
-          brew search boost
-          exit 1
           brew install \
           icu4c \
           boost@1.76 \
