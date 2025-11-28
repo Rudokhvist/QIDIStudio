@@ -45,7 +45,7 @@ jobs:
           brew update
           export HOMEBREW_NO_INSTALL_FROM_API=1
           sed -i '' -e 's/disable!/#disable!/' /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/b/boost@1.76.rb
-          sed -i '' -e 's/disable!/#disable!/' /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/i/icu4c@74
+          sed -i '' -e 's/disable!/#disable!/' /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/i/icu4c@74.rb
           brew install \
           boost@1.76 \
           automake \
