@@ -116,7 +116,6 @@ jobs:
           sed -i '' -e 's/-DQDT_RELEASE_TO_PUBLIC=1/-DQDT_RELEASE_TO_PUBLIC=0/' BuildMac.sh
           chmod +x BuildMac.sh
           ./BuildMac.sh -t 14.0 -x
-          ls -R
 
     - name: Upload Artifacts on Windows
       if: startsWith(matrix.os, 'windows-')
@@ -124,7 +123,14 @@ jobs:
       with:
         name: QIDIStudio_windows
         path: install_dir
-        
+
+    - name: Upload Artifacts on MacOS
+      if: startsWith(matrix.os, 'macos-')
+      uses: actions/upload-artifact@v5.0.0
+      with:
+        name: QIDIStudio_macos
+        path: build/x86_64/QIDIStudio/QIDIStudio.app/       
+
     - name: Upload Artifacts on Linux
       if: startsWith(matrix.os, 'ubuntu-')
       uses: actions/upload-artifact@v5.0.0
